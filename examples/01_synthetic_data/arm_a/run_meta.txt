@@ -1,0 +1,6 @@
+task_id=synthetic_data_20260723_010326
+config=agent_mvp_anthropic
+question=What are the real-world risks and benefits of using synthetic data to train or fine-tune large language models? Focus on data quality, bias, and evaluation.
+generated_at=20260723_010326
+log_path=/Users/nivedita/Desktop/Interviews /Reinforce Labs/harness/logs/synthetic_data_20260723_010326.log
+arm=A (fluent research report, no trust layer)

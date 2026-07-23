@@ -1,0 +1,15 @@
+.env
+.venv/
+harness/.venv/
+__pycache__/
+**/__pycache__/
+*.pyc
+.DS_Store
+harness/logs/
+harness/.env
+examples/**/*.log
+examples/**/run_console.log
+*.log
+.python-version
+.cursor/
+*.canvas.tsx

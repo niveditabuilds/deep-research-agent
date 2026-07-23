@@ -1,0 +1,202 @@
+[
+  {
+    "claim": "The AI training dataset market reached $2.82 billion in 2024, growing at 27.7% CAGR.",
+    "evidence": "$2.82 billion in 2024, growing at 27.7% CAGR",
+    "source_url": "",
+    "tier": 3,
+    "tier_label": "Tier 3 (lowest confidence) \u2014 social / forums / blogs / unknown",
+    "grounding": "fail",
+    "grounding_detail": "No source URL",
+    "coverage": "low"
+  },
+  {
+    "claim": "Research institute Epoch AI estimates that LLMs will exhaust public, human-generated data sometime between 2026 and 2032.",
+    "evidence": "Epoch AI estimates that LLMs will exhaust public, human-generated data sometime between 2026 and 2032",
+    "source_url": "",
+    "tier": 3,
+    "tier_label": "Tier 3 (lowest confidence) \u2014 social / forums / blogs / unknown",
+    "grounding": "fail",
+    "grounding_detail": "No source URL",
+    "coverage": "low"
+  },
+  {
+    "claim": "Gartner predicted in 2022 that 60% of AI development data would be synthetic by 2024, with projections suggesting synthetic data will surpass real-world data in AI training by 2030.",
+    "evidence": "60% of AI development data would be synthetic by 2024, with projections suggesting synthetic data will surpass real-world data in AI training by 2030",
+    "source_url": "",
+    "tier": 3,
+    "tier_label": "Tier 3 (lowest confidence) \u2014 social / forums / blogs / unknown",
+    "grounding": "fail",
+    "grounding_detail": "No source URL",
+    "coverage": "low"
+  },
+  {
+    "claim": "More than 60% of data used for AI applications in 2024 was synthetic.",
+    "evidence": "More than 60% of data used for AI applications in 2024 was synthetic",
+    "source_url": "https://news.mit.edu/2025/3-questions-pros-cons-synthetic-data-ai-kalyan-veeramachaneni-0903",
+    "tier": 2,
+    "tier_label": "Tier 2 \u2014 reputable news / tech press",
+    "grounding": "pass",
+    "grounding_detail": "Key atoms found: ['More', '60', '2024']",
+    "coverage": "ok"
+  },
+  {
+    "claim": "MIT researcher Kalyan Veeramachaneni stated that because synthetic data aren't drawn from real situations, they are also privacy-preserving.",
+    "evidence": "Because synthetic data aren't drawn from real situations, they are also privacy-preserving",
+    "source_url": "https://news.mit.edu/2025/3-questions-pros-cons-synthetic-data-ai-kalyan-veeramachaneni-0903",
+    "tier": 2,
+    "tier_label": "Tier 2 \u2014 reputable news / tech press",
+    "grounding": "pass",
+    "grounding_detail": "Key atoms found: ['Because']",
+    "coverage": "ok"
+  },
+  {
+    "claim": "All major labs (OpenAI, Anthropic, Google) began making pre-training pipelines more sophisticated by focusing on synthetic data in 2024.",
+    "evidence": "All major labs (OpenAI, Anthropic, Google) began making pre-training pipelines more sophisticated by focusing on synthetic data in 2024",
+    "source_url": "https://magazine.sebastianraschka.com/p/state-of-llms-2025",
+    "tier": 3,
+    "tier_label": "Tier 3 (lowest confidence) \u2014 social / forums / blogs / unknown",
+    "grounding": "pass",
+    "grounding_detail": "Key atoms found: ['All', 'OpenAI', 'Anthropic']",
+    "coverage": "ok"
+  },
+  {
+    "claim": "Research reveals at least eight distinct definitions of model collapse in the literature.",
+    "evidence": "at least eight distinct definitions of model collapse",
+    "source_url": "https://arxiv.org/html/2503.14023v1",
+    "tier": 1,
+    "tier_label": "Tier 1 (highest confidence) \u2014 papers / official / gov",
+    "grounding": "fail",
+    "grounding_detail": "Evidence span not found in page text",
+    "coverage": "ok"
+  },
+  {
+    "claim": "Shumailov et al. (Nature, 2024) found that when generative models train recursively on content produced by earlier models across successive generations, the distribution drifts from reality, rare events vanish, and outputs become repetitive until quality degrades to incoherence.",
+    "evidence": "distribution drifts from reality, rare events vanish, and outputs become repetitive until quality degrades to incoherence",
+    "source_url": "https://www.nature.com/articles/s41586-024-07566-y",
+    "tier": 1,
+    "tier_label": "Tier 1 (highest confidence) \u2014 papers / official / gov",
+    "grounding": "fail",
+    "grounding_detail": "Evidence span not found in page text",
+    "coverage": "ok"
+  },
+  {
+    "claim": "Multiple studies (Gerstgrasser et al. 2024, Kazdan et al. 2024, Dey & Donoho 2024) show population risk does NOT diverge in the accumulate paradigm where synthetic data accumulates alongside real data.",
+    "evidence": "population risk does NOT diverge",
+    "source_url": "https://arxiv.org/html/2503.14023v1",
+    "tier": 1,
+    "tier_label": "Tier 1 (highest confidence) \u2014 papers / official / gov",
+    "grounding": "pass",
+    "grounding_detail": "Key atoms found: ['NOT']",
+    "coverage": "ok"
+  },
+  {
+    "claim": "For text data with quadrillion tokens and high dimensionality, total collapse occurs so imperceptibly slowly that humanity could train trillions of models before noticing onset.",
+    "evidence": "so imperceptibly slowly that humanity could train trillions of models before noticing onset",
+    "source_url": "https://arxiv.org/html/2503.14023v1",
+    "tier": 1,
+    "tier_label": "Tier 1 (highest confidence) \u2014 papers / official / gov",
+    "grounding": "fail",
+    "grounding_detail": "Evidence span not found in page text",
+    "coverage": "ok"
+  },
+  {
+    "claim": "Llama 1 used 1.4T tokens while Llama 3 used 15T tokens, showing pre-training datasets are increasing.",
+    "evidence": "Llama 1: 1.4T tokens \u2192 Llama 3: 15T tokens",
+    "source_url": "https://magazine.sebastianraschka.com/p/state-of-llms-2025",
+    "tier": 3,
+    "tier_label": "Tier 3 (lowest confidence) \u2014 social / forums / blogs / unknown",
+    "grounding": "pass",
+    "grounding_detail": "Key atoms found: ['Llama', '1', '1']",
+    "coverage": "ok"
+  },
+  {
+    "claim": "A study titled 'Fairness Feedback Loops: Training on Synthetic Data Amplifies Bias' (FAccT 2024) demonstrated systematic bias amplification across generations.",
+    "evidence": "Fairness Feedback Loops: Training on Synthetic Data Amplifies Bias",
+    "source_url": "https://dl.acm.org/doi/10.1145/3706468.3706546",
+    "tier": 1,
+    "tier_label": "Tier 1 (highest confidence) \u2014 papers / official / gov",
+    "grounding": "fail",
+    "grounding_detail": "HTTP 403",
+    "coverage": "low"
+  },
+  {
+    "claim": "United Nations University (2024) identified bias propagation as primary risk, stating synthetic data should be assumed to carry additional risks including model error amplification.",
+    "evidence": "bias propagation as primary risk, stating synthetic data should be assumed to carry additional risks including model error amplification",
+    "source_url": "https://unu.edu/article/algorithm-bias-synthetic-data-should-be-option-last-resort-when-training-ai-systems",
+    "tier": 2,
+    "tier_label": "Tier 2 \u2014 reputable news / tech press",
+    "grounding": "fail",
+    "grounding_detail": "Evidence span not found in page text",
+    "coverage": "ok"
+  },
+  {
+    "claim": "An article titled 'Your Synthetic Data Passed Every Test and Still Broke Your Model' (Towards Data Science, April 2026) noted that fidelity metrics evaluate marginal distributions, not interactions between features.",
+    "evidence": "Fidelity metrics evaluate marginal distributions, not interactions between features",
+    "source_url": "",
+    "tier": 3,
+    "tier_label": "Tier 3 (lowest confidence) \u2014 social / forums / blogs / unknown",
+    "grounding": "fail",
+    "grounding_detail": "No source URL",
+    "coverage": "low"
+  },
+  {
+    "claim": "CIO Magazine (February 2025) projected that 80% of AI data will be synthetic by 2030, up from 20% in 2024.",
+    "evidence": "80% of AI data being synthetic by 2030 (up from 20% in 2024)",
+    "source_url": "",
+    "tier": 3,
+    "tier_label": "Tier 3 (lowest confidence) \u2014 social / forums / blogs / unknown",
+    "grounding": "fail",
+    "grounding_detail": "No source URL",
+    "coverage": "low"
+  },
+  {
+    "claim": "The synthetic data generation market is growing at 35.2% CAGR from 2024 to 2034.",
+    "evidence": "35.2% CAGR from 2024 to 2034",
+    "source_url": "",
+    "tier": 3,
+    "tier_label": "Tier 3 (lowest confidence) \u2014 social / forums / blogs / unknown",
+    "grounding": "fail",
+    "grounding_detail": "No source URL",
+    "coverage": "low"
+  },
+  {
+    "claim": "A Stanford/Harvard position paper (March 2025) concluded that certain predicted claims of model collapse rely on assumptions and conditions that poorly match real-world conditions, and several prominent collapse scenarios are readily avoidable.",
+    "evidence": "certain predicted claims of model collapse rely on assumptions and conditions that poorly match real-world conditions, and in fact several prominent collapse scenarios are readily avoidable",
+    "source_url": "https://arxiv.org/html/2503.14023v1",
+    "tier": 1,
+    "tier_label": "Tier 1 (highest confidence) \u2014 papers / official / gov",
+    "grounding": "fail",
+    "grounding_detail": "Evidence span not found in page text",
+    "coverage": "ok"
+  },
+  {
+    "claim": "World Economic Forum (September 2025) reported that synthetic data can correct lending practices driven by gender-biased data to provide fairer access to financial services.",
+    "evidence": "correct lending practices driven by gender-biased data to provide fairer access to financial services",
+    "source_url": "https://reports.weforum.org/docs/WEF_Synthetic_Data_2025.pdf",
+    "tier": 3,
+    "tier_label": "Tier 3 (lowest confidence) \u2014 social / forums / blogs / unknown",
+    "grounding": "fail",
+    "grounding_detail": "Evidence span not found in page text",
+    "coverage": "ok"
+  },
+  {
+    "claim": "Google Research demonstrated differentially private synthetic data generation for on-device safety classification in May 2024.",
+    "evidence": "differentially private synthetic data generation for on-device safety classification",
+    "source_url": "",
+    "tier": 3,
+    "tier_label": "Tier 3 (lowest confidence) \u2014 social / forums / blogs / unknown",
+    "grounding": "fail",
+    "grounding_detail": "No source URL",
+    "coverage": "low"
+  },
+  {
+    "claim": "LLM-based evaluators are outperforming traditional statistical tests by up to 8.1% in complex tasks according to 2026 research.",
+    "evidence": "outperforming traditional statistical tests by up to 8.1% in complex tasks",
+    "source_url": "",
+    "tier": 3,
+    "tier_label": "Tier 3 (lowest confidence) \u2014 social / forums / blogs / unknown",
+    "grounding": "fail",
+    "grounding_detail": "No source URL",
+    "coverage": "low"
+  }
+]

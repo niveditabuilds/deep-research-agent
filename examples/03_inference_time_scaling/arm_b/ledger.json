@@ -1,0 +1,202 @@
+[
+  {
+    "claim": "DeepSeek-R1 achieved 79.8% accuracy on AIME 2024.",
+    "evidence": "79.8% on AIME 2024",
+    "source_url": "https://arxiv.org/html/2604.10739v1",
+    "tier": 1,
+    "tier_label": "Tier 1 (highest confidence) \u2014 papers / official / gov",
+    "grounding": "fail",
+    "grounding_detail": "Evidence span not found in page text",
+    "coverage": "ok"
+  },
+  {
+    "claim": "Marginal utility of inference-time compute turns negative beyond 12K tokens for DeepSeek-R1-32B.",
+    "evidence": "Marginal utility turns negative beyond 12K tokens for DeepSeek-R1-32B",
+    "source_url": "https://arxiv.org/html/2604.10739v1",
+    "tier": 1,
+    "tier_label": "Tier 1 (highest confidence) \u2014 papers / official / gov",
+    "grounding": "pass",
+    "grounding_detail": "Key atoms found: ['Marginal', 'DeepSeek']",
+    "coverage": "ok"
+  },
+  {
+    "claim": "The flip ratio (negative flips/positive flips) exceeds 1.0 at approximately 7K tokens, indicating overthinking.",
+    "evidence": "Flip ratio (negative flips/positive flips) exceeds 1.0 at ~7K tokens",
+    "source_url": "https://arxiv.org/html/2604.10739v1",
+    "tier": 1,
+    "tier_label": "Tier 1 (highest confidence) \u2014 papers / official / gov",
+    "grounding": "pass",
+    "grounding_detail": "Key atoms found: ['Flip', '1.0']",
+    "coverage": "ok"
+  },
+  {
+    "claim": "67.5% of negative flips involve genuine overthinking where models explicitly reconsider and reject correct answers.",
+    "evidence": "67.5% of negative flips involve genuine overthinking where models explicitly reconsider and reject correct answers",
+    "source_url": "https://arxiv.org/html/2604.10739v1",
+    "tier": 1,
+    "tier_label": "Tier 1 (highest confidence) \u2014 papers / official / gov",
+    "grounding": "pass",
+    "grounding_detail": "Key atoms found: ['67.5']",
+    "coverage": "ok"
+  },
+  {
+    "claim": "Early tokens provide +3.2% accuracy per 500 tokens in inference-time compute scaling.",
+    "evidence": "Early tokens provide +3.2% accuracy per 500 tokens",
+    "source_url": "https://arxiv.org/html/2604.10739v1",
+    "tier": 1,
+    "tier_label": "Tier 1 (highest confidence) \u2014 papers / official / gov",
+    "grounding": "pass",
+    "grounding_detail": "Key atoms found: ['Early', '3.2', '500']",
+    "coverage": "ok"
+  },
+  {
+    "claim": "Accuracy can drop 0.9% from 12K to 16K tokens due to overthinking.",
+    "evidence": "Accuracy can drop 0.9% from 12K to 16K tokens",
+    "source_url": "https://arxiv.org/html/2604.10739v1",
+    "tier": 1,
+    "tier_label": "Tier 1 (highest confidence) \u2014 papers / official / gov",
+    "grounding": "pass",
+    "grounding_detail": "Key atoms found: ['Accuracy', '0.9']",
+    "coverage": "ok"
+  },
+  {
+    "claim": "Short-horizon models (R1, QwQ-32B, DAPO-32B) trained with GRPO show shorter traces that are consistently more accurate regardless of problem difficulty.",
+    "evidence": "Short-horizon models (R1, QwQ-32B, DAPO-32B trained with GRPO): Shorter traces consistently more accurate regardless of problem difficulty",
+    "source_url": "http://bair.berkeley.edu/blog/2026/05/08/adaptive-parallel-reasoning/",
+    "tier": 2,
+    "tier_label": "Tier 2 \u2014 reputable news / tech press",
+    "grounding": "fail",
+    "grounding_detail": "Evidence span not found in page text",
+    "coverage": "ok"
+  },
+  {
+    "claim": "Long-horizon models (Qwen3-32B, GPT-OSS-120B) trained with alternative RL methods show shorter traces better for easy problems but longer traces better for hard problems.",
+    "evidence": "Long-horizon models (Qwen3-32B, GPT-OSS-120B trained with alternative RL methods): Shorter traces better for easy problems, longer traces better for hard problems",
+    "source_url": "http://bair.berkeley.edu/blog/2026/05/08/adaptive-parallel-reasoning/",
+    "tier": 2,
+    "tier_label": "Tier 2 \u2014 reputable news / tech press",
+    "grounding": "fail",
+    "grounding_detail": "Evidence span not found in page text",
+    "coverage": "ok"
+  },
+  {
+    "claim": "Training algorithm (GRPO vs. GSPO) strongly correlates with length bias patterns in reasoning models.",
+    "evidence": "Training algorithm (GRPO vs. GSPO) strongly correlates with length bias patterns",
+    "source_url": "http://bair.berkeley.edu/blog/2026/05/08/adaptive-parallel-reasoning/",
+    "tier": 2,
+    "tier_label": "Tier 2 \u2014 reputable news / tech press",
+    "grounding": "fail",
+    "grounding_detail": "Evidence span not found in page text",
+    "coverage": "ok"
+  },
+  {
+    "claim": "Easy problems (Level 1-2 MATH) peak in performance at approximately 1.5K tokens.",
+    "evidence": "Easy problems (Level 1-2 MATH): Peak at ~1.5K tokens",
+    "source_url": "https://arxiv.org/html/2604.10739v1",
+    "tier": 1,
+    "tier_label": "Tier 1 (highest confidence) \u2014 papers / official / gov",
+    "grounding": "pass",
+    "grounding_detail": "Key atoms found: ['Easy', 'Level', '1']",
+    "coverage": "ok"
+  },
+  {
+    "claim": "Hard problems (Level 5 MATH) benefit from inference-time compute up to approximately 8K tokens.",
+    "evidence": "Hard problems (Level 5 MATH): Benefit up to ~8K tokens",
+    "source_url": "https://arxiv.org/html/2604.10739v1",
+    "tier": 1,
+    "tier_label": "Tier 1 (highest confidence) \u2014 papers / official / gov",
+    "grounding": "pass",
+    "grounding_detail": "Key atoms found: ['Hard', 'Level', '5']",
+    "coverage": "ok"
+  },
+  {
+    "claim": "The overthinking threshold is 2K tokens for easy problems versus 8K tokens for hard problems.",
+    "evidence": "Overthinking threshold: 2K tokens for easy problems vs. 8K for hard problems",
+    "source_url": "https://arxiv.org/html/2604.10739v1",
+    "tier": 1,
+    "tier_label": "Tier 1 (highest confidence) \u2014 papers / official / gov",
+    "grounding": "pass",
+    "grounding_detail": "Key atoms found: ['Overthinking']",
+    "coverage": "ok"
+  },
+  {
+    "claim": "Beam search shows inverse or no scaling for reasoning tasks, with performance degrading monotonically as beam size increases for short-horizon models.",
+    "evidence": "Performance degrades monotonically as beam size increases for short-horizon models",
+    "source_url": "http://bair.berkeley.edu/blog/2026/05/08/adaptive-parallel-reasoning/",
+    "tier": 2,
+    "tier_label": "Tier 2 \u2014 reputable news / tech press",
+    "grounding": "pass",
+    "grounding_detail": "Key atoms found: ['Performance']",
+    "coverage": "ok"
+  },
+  {
+    "claim": "Self-consistency and majority voting methods consistently improve accuracy across benchmarks but have high token cost, often 10x versus single generation.",
+    "evidence": "Trade-off: High token cost (often 10x vs. single generation)",
+    "source_url": "https://magazine.sebastianraschka.com/p/categories-of-inference-time-scaling",
+    "tier": 3,
+    "tier_label": "Tier 3 (lowest confidence) \u2014 social / forums / blogs / unknown",
+    "grounding": "fail",
+    "grounding_detail": "Evidence span not found in page text",
+    "coverage": "ok"
+  },
+  {
+    "claim": "Most validation studies on inference-time compute scaling are limited to less than 32K tokens.",
+    "evidence": "Most studies limited to <32K tokens",
+    "source_url": "",
+    "tier": 3,
+    "tier_label": "Tier 3 (lowest confidence) \u2014 social / forums / blogs / unknown",
+    "grounding": "fail",
+    "grounding_detail": "No source URL",
+    "coverage": "low"
+  },
+  {
+    "claim": "Statistical significance of overthinking effects was confirmed via bootstrap analysis with 95% confidence intervals.",
+    "evidence": "Statistical significance confirmed via bootstrap analysis (95% CI)",
+    "source_url": "https://arxiv.org/html/2604.10739v1",
+    "tier": 1,
+    "tier_label": "Tier 1 (highest confidence) \u2014 papers / official / gov",
+    "grounding": "pass",
+    "grounding_detail": "Key atoms found: ['Statistical', '95']",
+    "coverage": "ok"
+  },
+  {
+    "claim": "Studies on inference-time compute scaling primarily focus on models ranging from 7B to 235B parameters.",
+    "evidence": "Studies primarily on 7B-235B parameter models",
+    "source_url": "",
+    "tier": 3,
+    "tier_label": "Tier 3 (lowest confidence) \u2014 social / forums / blogs / unknown",
+    "grounding": "fail",
+    "grounding_detail": "No source URL",
+    "coverage": "low"
+  },
+  {
+    "claim": "R1-32B is a distilled model that shows similar patterns to R1.",
+    "evidence": "R1-32B (distilled) shows similar patterns to R1",
+    "source_url": "https://arxiv.org/html/2604.10739v1",
+    "tier": 1,
+    "tier_label": "Tier 1 (highest confidence) \u2014 papers / official / gov",
+    "grounding": "fail",
+    "grounding_detail": "Evidence span not found in page text",
+    "coverage": "ok"
+  },
+  {
+    "claim": "Most inference-time compute scaling research has been validated on mathematical reasoning benchmarks including AIME, MATH-500, and GPQA.",
+    "evidence": "Multiple studies across AIME, MATH-500, GPQA benchmarks",
+    "source_url": "https://arxiv.org/html/2604.10739v1",
+    "tier": 1,
+    "tier_label": "Tier 1 (highest confidence) \u2014 papers / official / gov",
+    "grounding": "pass",
+    "grounding_detail": "Key atoms found: ['Multiple', 'AIME', 'MATH']",
+    "coverage": "ok"
+  },
+  {
+    "claim": "Short-m@k (selecting shortest k traces from N samples) can outperform full majority voting in some settings.",
+    "evidence": "Short-m@k: Selecting shortest k traces from N samples can outperform full majority voting in some settings",
+    "source_url": "http://bair.berkeley.edu/blog/2026/05/08/adaptive-parallel-reasoning/",
+    "tier": 2,
+    "tier_label": "Tier 2 \u2014 reputable news / tech press",
+    "grounding": "fail",
+    "grounding_detail": "Evidence span not found in page text",
+    "coverage": "ok"
+  }
+]

@@ -1,0 +1,33 @@
+# Internal audit ledger (not user-facing)
+
+Confidence = source tier. Grounding fail ⇒ unsupported regardless of tier.
+
+| # | Claim | Evidence | Source | Tier (confidence) | Grounding | Coverage |
+|---|---|---|---|---|---|---|
+| 1 | The AI training dataset market reached $2.82 billion in 2024, growing at 27.7% CAGR. | $2.82 billion in 2024, growing at 27.7% CAGR |  | 3 | fail (unsupported) | low |
+| 2 | Research institute Epoch AI estimates that LLMs will exhaust public, human-generated data sometime between 2026 and 2032. | Epoch AI estimates that LLMs will exhaust public, human-generated data sometime between 2026 and 2032 |  | 3 | fail (unsupported) | low |
+| 3 | Gartner predicted in 2022 that 60% of AI development data would be synthetic by 2024, with projections suggesting synthetic data will surpass real-world data in AI training by 2030. | 60% of AI development data would be synthetic by 2024, with projections suggesting synthetic data will surpass real-world data in AI training by 2030 |  | 3 | fail (unsupported) | low |
+| 4 | More than 60% of data used for AI applications in 2024 was synthetic. | More than 60% of data used for AI applications in 2024 was synthetic | https://news.mit.edu/2025/3-questions-pros-cons-synthetic-data-ai-kalyan-veeramachaneni-0903 | 2 | pass | ok |
+| 5 | MIT researcher Kalyan Veeramachaneni stated that because synthetic data aren't drawn from real situations, they are also privacy-preserving. | Because synthetic data aren't drawn from real situations, they are also privacy-preserving | https://news.mit.edu/2025/3-questions-pros-cons-synthetic-data-ai-kalyan-veeramachaneni-0903 | 2 | pass | ok |
+| 6 | All major labs (OpenAI, Anthropic, Google) began making pre-training pipelines more sophisticated by focusing on synthetic data in 2024. | All major labs (OpenAI, Anthropic, Google) began making pre-training pipelines more sophisticated by focusing on synthetic data in 2024 | https://magazine.sebastianraschka.com/p/state-of-llms-2025 | 3 | pass | ok |
+| 7 | Research reveals at least eight distinct definitions of model collapse in the literature. | at least eight distinct definitions of model collapse | https://arxiv.org/html/2503.14023v1 | 1 | fail (unsupported) | ok |
+| 8 | Shumailov et al. (Nature, 2024) found that when generative models train recursively on content produced by earlier models across successive generations, the distribution drifts from reality, rare events vanish, and outputs become repetitive until quality degrades to incoherence. | distribution drifts from reality, rare events vanish, and outputs become repetitive until quality degrades to incoherence | https://www.nature.com/articles/s41586-024-07566-y | 1 | fail (unsupported) | ok |
+| 9 | Multiple studies (Gerstgrasser et al. 2024, Kazdan et al. 2024, Dey & Donoho 2024) show population risk does NOT diverge in the accumulate paradigm where synthetic data accumulates alongside real data. | population risk does NOT diverge | https://arxiv.org/html/2503.14023v1 | 1 | pass | ok |
+| 10 | For text data with quadrillion tokens and high dimensionality, total collapse occurs so imperceptibly slowly that humanity could train trillions of models before noticing onset. | so imperceptibly slowly that humanity could train trillions of models before noticing onset | https://arxiv.org/html/2503.14023v1 | 1 | fail (unsupported) | ok |
+| 11 | Llama 1 used 1.4T tokens while Llama 3 used 15T tokens, showing pre-training datasets are increasing. | Llama 1: 1.4T tokens → Llama 3: 15T tokens | https://magazine.sebastianraschka.com/p/state-of-llms-2025 | 3 | pass | ok |
+| 12 | A study titled 'Fairness Feedback Loops: Training on Synthetic Data Amplifies Bias' (FAccT 2024) demonstrated systematic bias amplification across generations. | Fairness Feedback Loops: Training on Synthetic Data Amplifies Bias | https://dl.acm.org/doi/10.1145/3706468.3706546 | 1 | fail (unsupported) | low |
+| 13 | United Nations University (2024) identified bias propagation as primary risk, stating synthetic data should be assumed to carry additional risks including model error amplification. | bias propagation as primary risk, stating synthetic data should be assumed to carry additional risks including model error amplification | https://unu.edu/article/algorithm-bias-synthetic-data-should-be-option-last-resort-when-training-ai-systems | 2 | fail (unsupported) | ok |
+| 14 | An article titled 'Your Synthetic Data Passed Every Test and Still Broke Your Model' (Towards Data Science, April 2026) noted that fidelity metrics evaluate marginal distributions, not interactions between features. | Fidelity metrics evaluate marginal distributions, not interactions between features |  | 3 | fail (unsupported) | low |
+| 15 | CIO Magazine (February 2025) projected that 80% of AI data will be synthetic by 2030, up from 20% in 2024. | 80% of AI data being synthetic by 2030 (up from 20% in 2024) |  | 3 | fail (unsupported) | low |
+| 16 | The synthetic data generation market is growing at 35.2% CAGR from 2024 to 2034. | 35.2% CAGR from 2024 to 2034 |  | 3 | fail (unsupported) | low |
+| 17 | A Stanford/Harvard position paper (March 2025) concluded that certain predicted claims of model collapse rely on assumptions and conditions that poorly match real-world conditions, and several prominent collapse scenarios are readily avoidable. | certain predicted claims of model collapse rely on assumptions and conditions that poorly match real-world conditions, and in fact several prominent collapse scenarios are readily avoidable | https://arxiv.org/html/2503.14023v1 | 1 | fail (unsupported) | ok |
+| 18 | World Economic Forum (September 2025) reported that synthetic data can correct lending practices driven by gender-biased data to provide fairer access to financial services. | correct lending practices driven by gender-biased data to provide fairer access to financial services | https://reports.weforum.org/docs/WEF_Synthetic_Data_2025.pdf | 3 | fail (unsupported) | ok |
+| 19 | Google Research demonstrated differentially private synthetic data generation for on-device safety classification in May 2024. | differentially private synthetic data generation for on-device safety classification |  | 3 | fail (unsupported) | low |
+| 20 | LLM-based evaluators are outperforming traditional statistical tests by up to 8.1% in complex tasks according to 2026 research. | outperforming traditional statistical tests by up to 8.1% in complex tasks |  | 3 | fail (unsupported) | low |
+
+## Tier counts
+
+- Tier 1: 6
+- Tier 2: 3
+- Tier 3: 11
+- Unsupported (grounding fail): 15

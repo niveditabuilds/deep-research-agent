@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Live demo: pass any research question.
+# Usage:
+#   ./demo "What are the risks of synthetic data for LLMs?"
+#   ./demo
+set -euo pipefail
+ROOT="$(cd "$(dirname "$0")" && pwd)"
+PY="$ROOT/harness/.venv/bin/python"
+if [[ ! -x "$PY" ]]; then
+  echo "Missing harness venv. Run: cd harness && uv sync --python 3.12" >&2
+  exit 1
+fi
+cd "$ROOT"
+exec "$PY" scripts/run_mvp.py "$@"
