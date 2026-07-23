@@ -2,8 +2,6 @@
 
 A **trust-aware deep research agent**: given an open-ended question, it searches the live web, drafts a research brief, then **filters what may be stated as findings** using source quality and citation checks.
 
-This repo is the Reinforce Labs Research Engineer take-home MVP.
-
 **Docs**
 - Full architecture + MVP cut: [DESIGN.md](./DESIGN.md)
 - What we tried / reversed: [DECISION_LOG.md](./DECISION_LOG.md)
@@ -150,8 +148,8 @@ Process choices that changed the output: [DECISION_LOG.md](./DECISION_LOG.md).
 ## Setup
 
 ```bash
-git clone https://github.com/niveditabuilds/reinforce-labs-deep-research-agent.git
-cd reinforce-labs-deep-research-agent
+git clone https://github.com/niveditabuilds/deep-research-agent.git
+cd deep-research-agent
 
 cp .env.example .env
 # ANTHROPIC_API_KEY=...

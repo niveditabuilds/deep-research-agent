@@ -11,7 +11,7 @@ task_id=inference_scaling_20260723_021344
 config=agent_mvp_anthropic
 question=What is the current state of inference-time compute scaling for LLM reasoning? Separate what has been empirically validated from what is still speculative, and identify where the evidence is too thin to draw conclusions.
 generated_at=20260723_021344
-log_path=/Users/nivedita/Desktop/Interviews /Reinforce Labs/harness/logs/inference_scaling_20260723_021344.log
+log_path=harness/logs/inference_scaling_20260723_021344.log
 arm=A (fluent research report, no trust layer)
 ```
 

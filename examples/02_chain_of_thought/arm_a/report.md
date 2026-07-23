@@ -11,7 +11,7 @@ task_id=cot_conflict_20260723_020950
 config=agent_mvp_anthropic
 question=Is chain-of-thought prompting an effective reasoning strategy for LLMs, or does it primarily improve output formatting? The literature disagrees—find the real fault lines and explain what accounts for the conflicting results.
 generated_at=20260723_020950
-log_path=/Users/nivedita/Desktop/Interviews /Reinforce Labs/harness/logs/cot_conflict_20260723_020950.log
+log_path=harness/logs/cot_conflict_20260723_020950.log
 arm=A (fluent research report, no trust layer)
 ```
 

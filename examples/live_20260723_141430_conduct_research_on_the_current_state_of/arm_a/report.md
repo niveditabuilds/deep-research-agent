@@ -11,11 +11,11 @@ task_id=live_20260723_141430
 config=agent_mvp_anthropic
 question=conduct research on the current state of search engines in ecommerce websites
 generated_at=20260723_141430
-log_path=/Users/nivedita/Desktop/Interviews /Reinforce Labs/harness/logs/live_20260723_141430.log
+log_path=harness/logs/live_20260723_141430.log
 arm=A (fluent research report, no trust layer)
 ```
 
-Draft body: `/Users/nivedita/Desktop/Interviews /Reinforce Labs/examples/live_20260723_141430_conduct_research_on_the_current_state_of/arm_a/report_body.md`
+Draft body: `examples/live_20260723_141430_conduct_research_on_the_current_state_of/arm_a/report_body.md`
 
 ## Draft preview
 
