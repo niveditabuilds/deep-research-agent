@@ -29,24 +29,86 @@ Readers can’t tell what to trust.
 
 Two layers:
 
-1. **Research harness** — plan, call tools, optionally delegate to workers, retry failures, log the run, synthesize a draft report.
-2. **Trust layer (ours)** — split claims from evidence, assign a source tier, check grounding, emit a claim ledger.
+1. **Research harness** — plan, call tools, delegate to worker instances when useful, retry failures, log the run, synthesize a draft report. Built for long multi-step retrieval.
+2. **Trust layer** — split claims from evidence, assign a source tier, check grounding, emit the final prose report + ledger.
 
 The harness gets information. The trust layer decides how much to trust each claim.
 
-**Confidence = source tier (+ grounding).** We do not use a separate high/medium/low confidence score. Tier is the confidence signal the reader sees. Grounding is the gate: if the receipt fails, the claim is **unsupported** regardless of tier.
+Because grounding is a **separate** step after research, the full design keeps a **deep research harness** (workers, rich tools, high turn budget). The MVP uses a thinner harness only to finish demos under time/cost limits — not because trust requires a weak research loop.
+
+**Confidence = source tier (+ grounding).** No separate high/medium/low score. Tier is the confidence signal; grounding is the gate: if the receipt fails, the claim is **unsupported** regardless of tier.
 
 ---
 
-## 3.1 How this differs from related systems
+## 3.1 How this differs from Claude Research and OpenAI Deep Research
 
-**Anthropic multi-agent research**
-- Similar: lead agent + isolated workers, tools, final synthesis.
-- Different: their verification/citation pass is largely a **final audit**; effort scaling is mostly **prompt heuristics**. We add an explicit **claim ledger** where each claim carries a **source tier as confidence**, and grounding can fail a claim even when a citation looks present.
+Sources for how those systems work **today** (product/engineering posts, not speculation):
 
-**OpenAI Deep Research**
-- Similar: multi-step web research and a polished long-form report.
-- Different: output is optimized for a fluent brief. Ours is optimized for an **auditable ledger** — claim / evidence / url / tier — so a Reddit-backed sentence cannot look as trusted as an arXiv-backed one.
+- Anthropic — [How we built our multi-agent research system](https://www.anthropic.com/engineering/multi-agent-research-system) (Jun 13, 2025): Claude **Research** is a multi-agent product (LeadResearcher + parallel subagents + CitationAgent).
+- OpenAI — [Introducing deep research](https://openai.com/index/introducing-deep-research/) (Feb 2, 2025, with later product updates) and [Deep research API guide](https://developers.openai.com/api/docs/guides/deep-research): ChatGPT/API **Deep research** is a long-running browsing agent that returns a cited report.
+
+This section compares **research products**, not plain Claude/ChatGPT chat without Research/Deep research enabled.
+
+### Claude Research (Anthropic) — how it works
+
+From Anthropic’s engineering write-up:
+
+1. **LeadResearcher** plans; can **save the plan to Memory** so it survives context truncation (~200k).
+2. Spawns **Subagents in parallel** (often ~3–5 for complex queries; more when needed). Each has its own context, searches iteratively, returns condensed findings.
+3. Lead may loop: synthesize → spawn more subagents or refine → until enough information.
+4. **CitationAgent** runs after research: reads the **report plus source documents** and attaches citations so claims are **attributed to sources**.
+5. Effort and **source-quality preferences** are steered heavily by **prompts / heuristics** (Anthropic describes teaching agents to prefer authoritative sources after humans saw SEO content farms win too often). Internal evals also score “source quality,” but that is an evaluation rubric, not a user-visible tier label on each claim.
+
+**What that optimizes for:** breadth, parallel coverage, and cited synthesis at product scale.
+
+### OpenAI Deep Research — how it works
+
+From OpenAI’s launch post and API docs:
+
+1. A **single long-running research agent** (models such as `o3-deep-research` / lightweight `o4-mini-deep-research`), trained with RL for multi-step browsing and analysis.
+2. Plans, searches/browses (text, images, PDFs), can use **code interpreter**, and (in API/product) other data tools; pivots as it learns.
+3. Typical wall clock on the order of **~5–30 minutes**; returns a **comprehensive report with citations** and a visible trail of steps/thinking.
+4. Product updates add things like **restricting web search to trusted sites**, MCP/app connectors, and interrupt/refine — i.e. control over *where* search may go and how the run proceeds.
+5. Public docs emphasize **cited, analyst-style reports**, not an exported per-claim ledger with explicit source-tier labels and pass/fail grounding gates.
+
+**What that optimizes for:** deep autonomous browsing + polished, cited long-form answers.
+
+### This agent — how it works
+
+```
+Research harness (main ± worker instances, search/read, …)
+  → fluent draft
+Trust layer
+  → extract (claim, evidence, url)
+  → assign source tier 1/2/3 from URL host rules  (= confidence)
+  → hard grounding: URL fetches AND evidence span/key fact appears
+  → prose final from passes only; fails → collapsed Needs review
+  → internal ledger for audit / ablation
+```
+
+MVP ships a thinner harness; full design keeps a deep multi-step harness and the same trust contract (§6).
+
+### Side-by-side (only differences we can defend from public facts + this design)
+
+| Dimension | Claude Research (Anthropic) | OpenAI Deep Research | **This agent** |
+|---|---|---|---|
+| Research shape | Lead + **parallel subagents** + loop | Long **single-agent** browse/reason loop | Harness: main ± worker instances (full design); MVP single-agent |
+| Primary output | Cited research answer | Cited long-form report | **Trust-filtered prose** + **Needs review** + **ledger** |
+| Citations | **CitationAgent** attributes claims to source locations after drafting | Inline/cited report; user can open sources | Citations only for claims that **pass grounding**; fails do not stay as findings |
+| Source quality | Mostly **prompt heuristics** (+ internal judge rubrics); not a fixed public 1/2/3 label per claim | Can **restrict search to trusted sites** (product update); not a post-hoc tier on each claim | **Explicit tier = confidence** from host rules (paper/gov → press → blog/unknown) |
+| If cite looks good but text doesn’t check out | Citation pass aims at correct **attribution**; Anthropic does **not** publish a “failed receipt → demote from main report” product surface like ours | Report remains a fluent cited narrative; no public “Needs review” demotion lane for failed span checks | **Hard gate:** no span / no fetch ⇒ **unsupported** → **Needs review** only (even Tier-1 hosts) |
+| Audit artifact | Final cited answer (+ their internal tracing) | Report + step/source trail in product/API | Machine-readable **ledger** (`tier`, `grounding`, `coverage`) for every extracted claim |
+| Eval story we show | Their blog: LLM-as-judge on accuracy, citation, completeness, source quality, tool use | Product quality via long RL’d browse + citations | **Same-run A/B:** fluent draft vs trust-filtered final |
+
+### What we are *not* claiming
+
+- That Claude Research or OpenAI Deep Research “never verify sources.” Both care about citations; Anthropic even isolates a CitationAgent; OpenAI markets cited, documentable outputs and trusted-site controls.
+- That our harness is deeper or more parallel than Anthropic’s production Research stack. Their published system is explicitly multi-agent and highly optimized for coverage/latency.
+- That hard span-matching equals full entailment. Soft “does this quote support the claim?” is full design only; Anthropic’s citation location pass and our span check are **different mechanisms**.
+
+### One-sentence difference
+
+> **They optimize for strong, cited research narratives. We add an explicit trust contract: source-type confidence, a hard receipt check, and a separate place for everything that doesn’t check out — so plausible prose cannot outrank a failed grounding.**
 
 ---
 
@@ -141,24 +203,43 @@ Conditions are detected in code (harness client, orchestrator, tools, trust laye
 - Do **not** promote a Tier-1 URL that failed the receipt check into Findings (reversed; see `DECISION_LOG.md`).
 - Do **not** put Needs review items as a peer section that skimmers read as answers (collapsed on purpose).
 
-### 4.4 Run loop, stopping, and context
+### 4.4 Run loop, stopping, memory, and traces
 
-- Structured turns: think → act → observe
-- On bad tool calls / timeouts / stuck repeats: roll back the bad turn and retry with the error surfaced (§4.3.1 #2–#3)
-- Full trace logged (plan, tool calls, worker calls, raw results)
+**Loop:** think → act (one tool or one worker subtask) → observe → repeat.
 
-**Stopping (harness defaults we keep):**
-- Stop the tool loop when the model returns no more tool calls, or `max_turns` is hit, then generate a final summary
-- On context overflow: summarize / trim and still emit a final answer rather than dying mid-run (§4.3.1 #6–#7)  
-  (MVP does not add a custom “earned re-search” stop policy; that is full design — §4.3.1 #10.)
+**Stop conditions (harness):**
 
-**Context / memory (what the harness does today):**
-- In-run message history only — not a long-term memory DB
-- Workers return condensed findings so the main agent is not flooded with raw pages
-- Old bulky tool payloads can be trimmed (`keep_tool_result`) as the run grows; MVP sets `-1` (keep all)
-- Trace log is the durable record for debugging
+| Condition | What happens |
+|---|---|
+| Model returns **no tool call** | Soft stop → treat response as draft / trigger final summary |
+| **`max_turns` reached** (main and each worker instance have their own cap) | Hard stop → force summary from whatever is in history (`ExceedMaxTurn`-style path) |
+| Unrecoverable LLM failure after retries | Mark failed; still attempt summary if possible |
+| Context overflow | Trim recent turns / summarize; still emit an answer |
 
-Full knob list for `agent_mvp_anthropic.yaml`: [HARNESS_CONFIG.md](./HARNESS_CONFIG.md).
+Trust-driven **re-search** after a weak ledger is full design only (§4.3.1 #10) — not a harness stop rule.
+
+**Memory (what the agent keeps):**
+
+| Kind | Full design | MVP |
+|---|---|---|
+| **Working memory** | In-run message history (system + user + assistant + tool results) for main; **separate history per worker instance** | Same, but only main (no workers) |
+| **Cross-agent handoff** | Worker returns a **condensed summary** into main’s history (not raw page dumps) | N/A |
+| **Tool-result retention** | `keep_tool_result` (default **-1** = keep all tool payloads in context; set ≥0 to stub older bulky results) | `-1` |
+| **Long-term / cross-query store** | Optional production store for long-running or repeated topics (follow-up) | None |
+| **Durable debug record** | Trace on disk (below) — not fed back as agent memory by default | Same |
+
+**Traces (where the run is recorded):**
+
+| | |
+|---|---|
+| **What** | Structured run log: task id, timestamps, each turn, tool/worker calls, errors/retries, final answer |
+| **Where** | On disk under the harness `output_dir` (shipped MVP: `harness/logs/<task_id>.log`) |
+| **Who uses it** | Engineers debugging “what failed three steps ago”; not the reader-facing report |
+| **Git** | Local only (gitignored) |
+
+Reader-facing honesty lives in the **ledger** + **Needs review**, not in the trace.
+
+Shipped MVP knob file: [HARNESS_CONFIG.md](./HARNESS_CONFIG.md).
 
 ### 4.5 Trust layer
 
@@ -229,23 +310,66 @@ Arm A is the fluent **pre-trust draft** from the same research run (ablation bas
 
 ## 6. MVP vs full design
 
+Same agent architecture. Different **operating points**.
+
+### Operating point table
+
+| Knob | Full design (deep research) | MVP (shipped demos) |
+|---|---|---|
+| **Agents** | Main + **worker type** `agent-worker`; main may spawn **multiple instances** (one subtask each; parallel when independent) | Main only (`sub_agents: null`) |
+| **Main tools** | Often light (e.g. reasoning); delegates heavy IO to workers | Search (Serper) + reading |
+| **Worker tools** | Search, reading, code, and other MCP tools as needed (vision/audio when the question needs them) | N/A |
+| **`max_turns`** | High / unlimited (`-1`) on main **and** each worker instance so long research can finish | **25** on main (demo cost/time ceiling) |
+| **`max_tool_calls_per_turn`** | 10 | 10 |
+| **`keep_tool_result`** | `-1` (keep all) unless context pressure requires trimming | `-1` |
+| **Stop** | No tool call **or** turn cap → forced summary | Same rules, tighter cap |
+| **Hints / answer extract** | Optional (on for some eval pipelines) | Off |
+| **Trace** | `output_dir` / `logs/<task_id>.log` | Same |
+| **Trust** | End-of-run pass + optional re-search if ledger is weak; soft support judge | One hard-grounding pass → prose B + Needs review |
+
+Grounding does **not** replace long research. It filters what long research may assert.
+
+### Full design — research harness (detailed)
+
+**Topology**
+```
+Main agent
+  ├─ own tools (optional)
+  └─ agent-worker.execute_subtask(subtask)
+        → new worker instance (own message history, own max_turns)
+        → search / read / other tools
+        → returns condensed summary to main
+Main synthesizes draft → Trust layer
+```
+
+- One **worker type**, many **instances** (not a roster of differently named specialists unless we add more YAML entries later).
+- Workers do not talk to each other; main merges.
+- Independent subtasks may run as concurrent instances so wall time ≈ slowest worker, not the sum.
+
+**Turns & stop**
+- Each node (main, each worker instance) has `max_turns`.
+- Soft stop: model emits final content with no tool call.
+- Hard stop: turn budget exhausted → summary generator still produces a draft.
+- Bad tool JSON / tool timeout: error surfaced into history; loop continues (§4.3.1).
+
+**Memory & traces**
+- Working memory = message histories (main + per instance).
+- Handoff memory = worker summaries.
+- Optional trim via `keep_tool_result` when context grows.
+- Trace on disk for every run (turns, tools, errors) under `harness/logs/`.
+
+**Trust additions in full design (on top of that harness)**
+- Second targeted search when many claims fail grounding or are Tier-3-heavy
+- Soft “does the span support the claim?” judge + human spot-checks
+- Optional cross-query memory store for long-running products
+- Multi-question eval / regression on demotions
+
 ### MVP (what we ship now)
 
-- Single-agent harness + Claude + web search/read
-- End-of-research trust pass → **prose** final report (product = Arm B)
-- Three assignment-style demos (synthetic data; CoT conflict; inference-time scaling)
-- Ablation: fluent draft (A) vs trust-aware prose final (B) from the **same** research run
-- Decision log of choices that changed output
-- Trace or log retained for the demo
-
-### Full design (not in MVP)
-
-- Multi-worker delegation
-- Extra search pass driven by failed grounding
-- Richer soft “support” judge with human spot-checks
-- Production memory store for long runs
-- Broader tool set (code, docs corpora)
-- Multi-question eval suite
+- Config: `harness/config/agent_mvp_anthropic.yaml` — see [HARNESS_CONFIG.md](./HARNESS_CONFIG.md)
+- Single-agent, Serper + reading, `max_turns: 25`
+- One trust pass → prose report + Needs review + ledger
+- Three demos + same-run A/B ablation + decision log
 
 ---
 
@@ -299,9 +423,9 @@ No multi-seed study. One question, one research run, two views.
 
 | Choice | Why | Cost |
 |---|---|---|
-| Harness + trust layer | Separates retrieval from trust | Extra post-pass latency |
+| Harness + trust layer | Separates retrieval from permission to assert | Extra post-pass latency |
 | Source tier as confidence | Easy to explain and audit; matches how readers judge sources | Coarse; good paper can still be misused |
-| Single-agent MVP | Fits time; fewer moving parts | Weaker on broad multi-hop questions |
+| Thin harness in MVP only | Fits take-home time; clearer ablation | Understates full-design coverage |
 | Same-run A/B (fluent vs ledger) | Isolates trust layer; both arms are deep research | Doesn’t measure a second retrieval policy |
 
 ---
