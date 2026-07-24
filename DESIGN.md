@@ -106,9 +106,9 @@ MVP ships a thinner harness; full design keeps a deep multi-step harness and the
 - That our harness is deeper or more parallel than Anthropic’s production Research stack. Their published system is explicitly multi-agent and highly optimized for coverage/latency.
 - That hard span-matching equals full entailment. Soft “does this quote support the claim?” is full design only; Anthropic’s citation location pass and our span check are **different mechanisms**.
 
-### One-sentence difference
+### Close
 
-> **They optimize for strong, cited research narratives. We add an explicit trust contract: source-type confidence, a hard receipt check, and a separate place for everything that doesn’t check out — so plausible prose cannot outrank a failed grounding.**
+> We are not claiming a better search engine than Claude Research or OpenAI Deep Research. We are claiming a stricter trust contract: after research, every finding must pass a source-tier label and a hard receipt check, or it leaves the main report.
 
 ---
 
