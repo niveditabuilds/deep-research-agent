@@ -88,7 +88,7 @@ Trust layer
 
 MVP ships a thinner harness; full design keeps a deep multi-step harness and the same trust contract (§6).
 
-### Side-by-side (only differences we can defend from public facts + this design)
+### Side-by-side
 
 | Dimension | Claude Research (Anthropic) | OpenAI Deep Research | **This agent** |
 |---|---|---|---|
