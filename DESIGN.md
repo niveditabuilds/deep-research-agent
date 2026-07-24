@@ -93,12 +93,9 @@ MVP ships a thinner harness; full design keeps a deep multi-step harness and the
 | Dimension | Claude Research (Anthropic) | OpenAI Deep Research | **This agent** |
 |---|---|---|---|
 | Research shape | Lead + **parallel subagents** + loop | Long **single-agent** browse/reason loop | Harness: main ± worker instances (full design); MVP single-agent |
-| Primary output | Cited research answer | Cited long-form report | **Trust-filtered prose** + **Needs review** + **ledger** |
 | Citations | **CitationAgent** attributes claims to source locations after drafting | Inline/cited report; user can open sources | Citations only for claims that **pass grounding**; fails do not stay as findings |
 | Source quality | Mostly **prompt heuristics** (+ internal judge rubrics); not a fixed public 1/2/3 label per claim | Can **restrict search to trusted sites** (product update); not a post-hoc tier on each claim | **Explicit tier = confidence** from host rules (paper/gov → press → blog/unknown) |
 | If cite looks good but text doesn’t check out | Citation pass aims at correct **attribution**; Anthropic does **not** publish a “failed receipt → demote from main report” product surface like ours | Report remains a fluent cited narrative; no public “Needs review” demotion lane for failed span checks | **Hard gate:** no span / no fetch ⇒ **unsupported** → **Needs review** only (even Tier-1 hosts) |
-| Audit artifact | Final cited answer (+ their internal tracing) | Report + step/source trail in product/API | Machine-readable **ledger** (`tier`, `grounding`, `coverage`) for every extracted claim |
-| Eval story we show | Their blog: LLM-as-judge on accuracy, citation, completeness, source quality, tool use | Product quality via long RL’d browse + citations | **Same-run A/B:** fluent draft vs trust-filtered final |
 
 ### What we are *not* claiming
 
