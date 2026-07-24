@@ -5,6 +5,7 @@ Deep research agent: given an open-ended question, it searches the live web, dra
 **Docs**
 - Full architecture + MVP cut: [DESIGN.md](./DESIGN.md)
 - What we tried / reversed: [DECISION_LOG.md](./DECISION_LOG.md)
+- Harness knobs (`max_turns`, tools, env): [HARNESS_CONFIG.md](./HARNESS_CONFIG.md)
 - Example index: [examples/README.md](./examples/README.md)
 
 ---
@@ -188,6 +189,7 @@ harness/.venv/bin/python scripts/run_trust_layer.py \
 README.md              ← you are here
 DESIGN.md              Full architecture + MVP cut
 DECISION_LOG.md        Key decisions (worked vs failed)
+HARNESS_CONFIG.md      MVP YAML / loop / memory / env knobs
 demo                   Live entrypoint for any query
 harness/               Research harness (tool loop, traces)
 trust_layer/           Claims, tiers, grounding, prose final

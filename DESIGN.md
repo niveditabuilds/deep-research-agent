@@ -91,24 +91,74 @@ Minimum set:
 | Fetch / read | Pull page or doc text |
 | (Optional) Code sandbox | Tables, light analysis |
 
-**Failure behavior:** retry with backoff → if still failing, mark that facet **low coverage** (search/fetch did not yield usable evidence) and continue. Surface it in the report. Do not drop it silently.
+**Failure behavior:** see §4.3.1 (graceful degradation). Do not drop failures silently.
+
+### 4.3.1 Graceful degradation (when / what / where listed)
+
+“Graceful degradation” means: **keep the run alive, shrink what we claim, and write the gap somewhere inspectable** — never invent certainty to fill a hole.
+
+Conditions are detected in code (harness client, orchestrator, tools, trust layer). They are **listed** in three places depending on severity:
+
+| Surface | Who sees it | What it holds |
+|---|---|---|
+| **Harness trace** (`harness/logs/`) | Engineers / debug | Every retry, tool error string, worker failure, overflow trim |
+| **Claim ledger** (`arm_b/ledger.md` / `.json`) | Ablation / audit | Per-claim `tier`, `grounding` pass/fail, `coverage` ok/low |
+| **User report** (`arm_b/report.md`) | Reader | Verified prose only; fails under collapsed **Needs review**; optional coverage note in Limits |
+
+#### Condition table
+
+| # | When (trigger) | What happens | Where listed |
+|---|---|---|---|
+| 1 | Anthropic/API call fails transiently | Same request retried up to **5×**, **10s** apart | Trace only (unless all retries fail → #6) |
+| 2 | Model emits malformed tool JSON | Error observation returned (“format incorrect… try again”); **next turn** model may correct | Trace + next message in agent history |
+| 3 | Search/read throws or times out | Error string returned as tool result; loop **continues**; model may retry a different query/URL | Trace; if that facet never recovers → ledger `coverage: low` and/or Needs review |
+| 4 | `read_file` HTTP download fails | Up to ~3 download retries with backoff, then scrape fallback; still fail → error to agent | Trace |
+| 5 | Worker instance fails or returns empty (full design) | Main **does not abort**; continues with other facets; that subtask marked incomplete | Trace (worker session); main may note gap in draft; trust may leave related claims unsupported |
+| 6 | Context overflow / summary call fails | Drop recent assistant–user pairs / retry summary; still try to emit an answer | Trace; report may be thinner |
+| 7 | Hit `max_turns` before model stops | Force final summary with whatever evidence exists | Trace (`max_turns_reached`); report may note limits |
+| 8 | Claim URL missing / page won’t load / evidence span not found | Claim **not** stated as a finding | Ledger: `grounding=fail`, often `coverage=low`; report: **Needs review** `<details>` block |
+| 9 | Claim only backed by Tier-3 sources but grounding passes | Keep claim, softer framing; tier stays in ledger (not printed as a badge in user prose) | Ledger: tier=3; report: included carefully |
+| 10 | Many claims fail grounding or are Tier-3-heavy (**full design**) | One **targeted re-search** on weak claims, then re-run grounding once | Trace (second pass); updated ledger + report |
+
+#### How the user-facing list is produced
+
+1. Trust layer builds rows: `{claim, evidence, url, tier, grounding, coverage}`.
+2. `grounding=fail` → excluded from main prose; appended under:
+
+```markdown
+## Needs review
+<details>
+<summary>N items could not be verified…</summary>
+- claim … (reason / url)
+</details>
+```
+
+3. `coverage=low` is recorded on the ledger row when URL resolve/fetch is weak; the report’s **Limits of this report** states that only receipt-checked claims are asserted.
+4. Harness-only failures (retries that eventually succeeded) stay in the **trace**, not the reader report.
+
+#### Non-goals
+
+- Do **not** promote a Tier-1 URL that failed the receipt check into Findings (reversed; see `DECISION_LOG.md`).
+- Do **not** put Needs review items as a peer section that skimmers read as answers (collapsed on purpose).
 
 ### 4.4 Run loop, stopping, and context
 
 - Structured turns: think → act → observe
-- On bad tool calls / timeouts / stuck repeats: roll back the bad turn and retry with the error surfaced
+- On bad tool calls / timeouts / stuck repeats: roll back the bad turn and retry with the error surfaced (§4.3.1 #2–#3)
 - Full trace logged (plan, tool calls, worker calls, raw results)
 
 **Stopping (harness defaults we keep):**
 - Stop the tool loop when the model returns no more tool calls, or `max_turns` is hit, then generate a final summary
-- On context overflow: summarize / trim and still emit a final answer rather than dying mid-run  
-  (MVP does not add a custom “earned re-search” stop policy; that is full design.)
+- On context overflow: summarize / trim and still emit a final answer rather than dying mid-run (§4.3.1 #6–#7)  
+  (MVP does not add a custom “earned re-search” stop policy; that is full design — §4.3.1 #10.)
 
 **Context / memory (what the harness does today):**
 - In-run message history only — not a long-term memory DB
 - Workers return condensed findings so the main agent is not flooded with raw pages
-- Old bulky tool payloads can be trimmed (`keep_tool_result`) as the run grows
+- Old bulky tool payloads can be trimmed (`keep_tool_result`) as the run grows; MVP sets `-1` (keep all)
 - Trace log is the durable record for debugging
+
+Full knob list for `agent_mvp_anthropic.yaml`: [HARNESS_CONFIG.md](./HARNESS_CONFIG.md).
 
 ### 4.5 Trust layer
 
@@ -261,7 +311,7 @@ No multi-seed study. One question, one research run, two views.
 - **Wrong tier:** domain heuristics mis-label a source → keep allowlists short and editable; default unknown → Tier 3
 - **Grounding false negative:** quote paraphrased → allow light normalization; don’t require exact prose match for all claims
 - **Grounding false positive:** span present but doesn’t support claim → soft support judge is full design only
-- **Thin / low coverage:** search or fetch failed for a facet → label `coverage: low` rather than inventing certainty
+- **Thin / low coverage:** search or fetch failed for a facet → label `coverage: low` rather than inventing certainty (see §4.3.1)
 
 ---
 
