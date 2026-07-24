@@ -1,6 +1,6 @@
 # Deep Research Agent
 
-A **trust-aware deep research agent**: given an open-ended question, it searches the live web, drafts a research brief, then **filters what may be stated as findings** using source quality and citation checks.
+Deep research agent: given an open-ended question, it searches the live web, drafts a research brief, then **filters what may be stated as findings** using source quality and citation checks.
 
 **Docs**
 - Full architecture + MVP cut: [DESIGN.md](./DESIGN.md)
